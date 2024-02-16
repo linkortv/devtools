@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+          margin: 0;
+      }
+      /* Стили для внешнего блока */
+      .container-me {
+        width: 100%; /* Занимает всю ширину страницы */
+        display: flex;
+      }
+
+      .container-me.header {
+          background-color: rgb(252, 60, 60);
+          /* position: fixed; */
+          top: 0;
+          position: sticky;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+      }
+      /* Стили для внутренних блоков */
+      .menu {
+        width: 200px;
+        height: 100vh; /* Занимают всю высоту экрана */
+        transition: width 0.3s ease; /* Анимация изменения ширины */
+        overflow: hidden; /* Скрыть текст, который не помещается */
+      }
+
+
+      .right-menu {
+        width: 200px;
+        height: 100%; /* Занимают всю высоту экрана */
+        transition: width 0.3s ease; /* Анимация изменения ширины */
+        overflow: hidden; /* Скрыть текст, который не помещается */
+      }
+
+      .menu {
+          background: lightblue;
+          width: 200px;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column; /* Добавляем выравнивание по центру по вертикали */
+          position: sticky;
+          top: 0;
+      }
+
+
+      .right-menu {
+          /* position: absolute;
+          right: 0; */
+          background: lightblue;
+          width: 200px;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column; /* Добавляем выравнивание по центру по вертикали */
+          position: sticky;
+          top: 55px;
+          overflow: hidden;
+
+      }
+
+
+      .menu div {
+          display: flex; /* Располагаем элементы по горизонтали */
+          align-items: center; /* Выравниваем элементы по центру по вертикали */
+          margin-bottom: 10px; /* Добавляем отступ между элементами */
+      }
+
+      .body {
+        background: lightgreen;
+        /* height: 100%; */
+        flex: 1; /* Занимает оставшееся пространство */
+        /* position: relative;  Позволяет позиционировать кнопку внутри блока */
+        height: 100vh;
+        max-height: 100vh;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container-main {
+          flex: 1;
+          display: flex;
+          /* height: 100%; */
+          /* max-height: calc(100vh - 55px); */
+      }
+
+      .body-right {
+          background-color: rgb(245, 165, 165);
+          /* height: 150%; */
+          flex: 1;
+          /* height: 100vh; Занимают всю высоту экрана */
+          transition: width 0.3s ease; /* Анимация изменения ширины */
+          /* overflow: hidden; */
+
+          /* height: 100%; Занимает всю оставшуюся высоту */
+          /* overflow: hidden; */
+          height: 100%;
+      }
+
+      .menu div {
+      display: flex; /* Располагаем элементы по горизонтали */
+      align-items: center; /* Выравниваем элементы по центру по вертикали */
+      margin-bottom: 10px; /* Добавляем отступ между элементами */
+      }
+
+      .icon {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        margin-bottom: 5px;
+      }
+      .label {
+        text-overflow: ellipsis; /* Сокращение текста, если не помещается */
+        overflow: hidden; /* Скрыть текст, который не помещается */
+        white-space: nowrap; /* Предотвратить перенос текста */
+      }
+      .toggle-button {
+        /*position: fixed; /* Абсолютное позиционирование внутри родительского блока */
+        top: 50px; /* Отступ от нижнего края */
+        left: 220px; /* Отступ от правого края */
+      }
+    </style>
+    <title>Dynamic Width Change with Icon and Text</title>
+  </head>
+  <body>
+    <div class="container-me">
+      <!-- Внутренний блок для левого меню -->
+      <div class="menu">
+        <div>
+          <div class="icon"></div>
+          <div class="label">Menu Item 1</div>
+        </div>
+        <div>
+          <div class="icon"></div>
+          <div class="label">Menu Item 2</div>
+        </div>
+      </div>
+      <!-- Внутренний блок для тела -->
+      <div class="body">
+        <!-- Содержимое тела -->
+          <div class="container-me header sticky-top">
+              <button class="toggle-button" onclick="toggleWidth()">Toggle Width</button> 
+              Шапка
+              <div>
+                  <div class="icon" onclick="toggleRightWidth()"></div>
+              </div>
+              <div style="width: 15px;">
+              </div>
+              <div>
+                  <div class="icon" onclick="toggleRightWidth()"></div>
+              </div>
+          </div>
+        
+        <div class="container-main">
+          <!-- Внутренний блок для меню -->
+          
+          <!-- Внутренний блок для тела -->
+          <div class="body-right">
+            <!-- Содержимое тела -->
+              <div class="main-body">
+                  Здесь будет yeild <br>
+              </div>
+          </div>
+          <div class="right-menu">
+              <div class="test" style="position: fixed; top: 55px;">
+                  <div>
+                      <div class="icon"></div>
+                      <div class="label">Menu Item 1</div>
+                  </div>
+                  <div>
+                      <div class="icon"></div>
+                      <div class="label">Menu Item 2</div>
+                  </div>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- JavaScript для управления изменением ширины -->
+    <script>
+      // Функция для изменения ширины меню
+      function toggleWidth() {
+        var menu = document.querySelector('.menu');
+        if (menu.offsetWidth === 200) {
+          menu.style.width = '50px';
+        } else {
+          menu.style.width = '200px';
+        }
+      }
+
+      function toggleRightWidth() {
+        var menu = document.querySelector('.right-menu');
+        if (menu.offsetWidth === 200) {
+          menu.style.width = '0px';
+          document.querySelector('.test').style.display='none';
+        } else {
+          menu.style.width = '200px';
+          document.querySelector('.test').style.display='block';
+        }
+      }
+    </script>
+  </body>
+</html>
